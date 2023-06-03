@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.0</version>
+        <version>2.5.12</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.inpress</groupId>
@@ -18,7 +18,7 @@
         <swagger.version>1.6.9</swagger.version>
         <hibernate-types-52.version>2.19.2</hibernate-types-52.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
-        <jackson.version>2.13.2</jackson.version>
+        <json-api.version>1.1.4</json-api.version>
     </properties>
     <dependencies>
         <dependency>
@@ -43,16 +43,16 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-testcontainers</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <scope>test</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-testcontainers</artifactId>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.testcontainers</groupId>-->
+<!--            <artifactId>junit-jupiter</artifactId>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>com.vladmihalcea</groupId>
             <artifactId>hibernate-types-52</artifactId>
@@ -64,36 +64,15 @@
             <version>${swagger.version}</version>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-hibernate5</artifactId>
-            <version>${jackson.version}</version>
 
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.module</groupId>
-            <artifactId>jackson-module-parameter-names</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jdk8</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
         <dependency>
             <groupId>javax.json</groupId>
             <artifactId>javax.json-api</artifactId>
-            <version>1.1.4</version>
+            <version>${json-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
         </dependency>
     </dependencies>
 
@@ -114,25 +93,22 @@
         </plugins>
     </build>
     <profiles>
-    <profile>
-        <id>develop</id>
-        <activation>
-            <activeByDefault>true</activeByDefault>
-        </activation>
-        <properties>
-            <spring.profiles.active>develop</spring.profiles.active>
-            <log.appender>CONSOLE</log.appender>
-        </properties>
-    </profile>
-    <profile>
-        <id>master</id>
-        <properties>
-            <spring.profiles.active>develop</spring.profiles.active>
-            <log.appender>STACKDRIVER</log.appender>
-        </properties>
-    </profile>
+        <profile>
+            <id>develop</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <spring.profiles.active>develop</spring.profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>master</id>
+            <properties>
+                <spring.profiles.active>develop</spring.profiles.active>
+            </properties>
+        </profile>
     </profiles>
-
 
 
 </project>
