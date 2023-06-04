@@ -2,14 +2,19 @@ package com.inpress.optimusweather.web.remote;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.inpress.optimusweather.service.dto.WeatherDto;
-import com.inpress.optimusweather.service.dto.ForecastWeatherDto;
-import com.inpress.optimusweather.service.dto.HistoricalWeatherDto;
+import com.inpress.optimusweather.service.dto.BatchWeatherDto;
 import com.inpress.optimusweather.web.rest.error.OptimusWeatherException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
+
+import java.math.RoundingMode;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static org.springframework.http.HttpMethod.*;
 import static org.springframework.http.HttpMethod.DELETE;
@@ -20,6 +25,8 @@ public abstract class OptimusWeatherAPI {
 
     private final RestTemplate restTemplate;
     protected final ObjectMapper objectMapper;
+    protected final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    protected final DecimalFormat decimalFormat;
 
     /**
      * show the current weather in specific area
@@ -34,11 +41,11 @@ public abstract class OptimusWeatherAPI {
      * @param forecastDays num of days to be forecasted
      * @param longitude longitude
      * @param latitude latitude
-     * @return the data of weather {@link ForecastWeatherDto} in specific area
+     * @return the data of weather {@link BatchWeatherDto} in specific area
      */
-    abstract ForecastWeatherDto forecastWeather(Long forecastDays,Double latitude,Double longitude);
+    abstract BatchWeatherDto forecastWeather(Long forecastDays, Double latitude, Double longitude);
 
-    abstract HistoricalWeatherDto historicalWeather(Long startDate,Long endDate,Double latitude,Double longitude);
+    abstract BatchWeatherDto historicalWeather(Date startDate, Date endDate, Double latitude, Double longitude);
 
     protected final String restGet(String url) {
         HttpHeaders headers = new HttpHeaders();

@@ -3,12 +3,14 @@ package com.inpress.optimusweather.web.remote;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.inpress.optimusweather.service.dto.WeatherDto;
-import com.inpress.optimusweather.service.dto.ForecastWeatherDto;
-import com.inpress.optimusweather.service.dto.HistoricalWeatherDto;
+import com.inpress.optimusweather.service.dto.BatchWeatherDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.text.DecimalFormat;
+import java.util.Date;
 
 @Slf4j
 @Service
@@ -22,8 +24,8 @@ public class WeatherApiClient extends OptimusWeatherAPI {
     private static final String FORECAST_WEATHER_URL = "";
     private static final String HISTORICAL_WEATHER_URL = "";
 
-    public WeatherApiClient(RestTemplate restTemplate, ObjectMapper objectMapper) {
-        super(restTemplate, objectMapper);
+    public WeatherApiClient(RestTemplate restTemplate, ObjectMapper objectMapper, DecimalFormat decimalFormat) {
+        super(restTemplate, objectMapper, decimalFormat);
     }
 
 
@@ -33,12 +35,13 @@ public class WeatherApiClient extends OptimusWeatherAPI {
     }
 
     @Override
-    ForecastWeatherDto forecastWeather(Long forecastDays, Double longitude, Double latitude) {
+    BatchWeatherDto forecastWeather(Long forecastDays, Double longitude, Double latitude) {
         return null;
     }
 
     @Override
-    HistoricalWeatherDto historicalWeather(Long startDate, Long endDate, Double longitude, Double latitude) {
+    BatchWeatherDto historicalWeather(Date startDate, Date endDate, Double latitude, Double longitude) {
         return null;
     }
+
 }

@@ -3,12 +3,16 @@ package com.inpress.optimusweather;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hibernate.boot.model.source.spi.IdentifierSource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.client.RestTemplate;
+
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 
 @SpringBootApplication
 public class OptimusWeatherApplication {
@@ -20,6 +24,13 @@ public class OptimusWeatherApplication {
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         return builder.build();
+    }
+
+    @Bean
+    public DecimalFormat decimalFormat(){
+        DecimalFormat decimalFormat=new DecimalFormat("0.00");
+        decimalFormat.setRoundingMode(RoundingMode.UP);
+        return decimalFormat;
     }
 
     @Bean

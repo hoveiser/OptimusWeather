@@ -5,6 +5,8 @@ import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 @Getter
 @Setter
@@ -12,8 +14,8 @@ import java.util.Set;
 @NoArgsConstructor
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ForecastWeatherDto {
+public class BatchWeatherDto {
     private Double latitude;
     private Double longitude;
-    private Set<WeatherDto> weatherDtos=new HashSet<>();
+    private SortedSet<WeatherDto> weatherDtos=new TreeSet<>();
 }
