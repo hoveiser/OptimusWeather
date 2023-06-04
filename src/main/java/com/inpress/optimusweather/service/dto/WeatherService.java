@@ -53,8 +53,8 @@ public class WeatherService {
         if (periodDays > availableHistoricalData.size()) {
             Pair<Date, Date> missedDaysIntervals = findMissedDaysIntervals(startDate, endDate, availableHistoricalData);
             BatchWeatherDto historicalBatchWeatherDto = openMeteoClient.historicalWeather(missedDaysIntervals.getFirst(), missedDaysIntervals.getSecond(), latitude, longitude);
-            historicalBatchWeatherDto.getWeatherDtos().addAll(toDtos(availableHistoricalData));
             weatherRepository.saveAllAndFlush(fromDtos(historicalBatchWeatherDto));
+            historicalBatchWeatherDto.getWeatherDtos().addAll(toDtos(availableHistoricalData));
             return historicalBatchWeatherDto;
         } else {
             return new BatchWeatherDto(latitude, longitude, toDtos(availableHistoricalData));
@@ -66,7 +66,7 @@ public class WeatherService {
         Date startMissedDate = null;
         Date endMissedDate = null;
         Date current = startDate;
-        while (current.before(endDate)) {
+        while (current.before(endDate) || current.equals(endDate)) {
             Date finalCurrent = current;
             boolean findDay = weathersFindsInDB.stream().anyMatch(weather -> weather.getTime().equals(finalCurrent));
             if (!findDay) {
@@ -102,6 +102,7 @@ public class WeatherService {
         weather.setWindSpeed(weatherDto.getWindSpeed());
         weather.setTimeZone(weatherDto.getTimeZone());
         weather.setTemperature(weatherDto.getTemperature());
+        weather.setGeoData(weather.getLatitude()+","+weather.getLongitude());
         return weather;
     }
 

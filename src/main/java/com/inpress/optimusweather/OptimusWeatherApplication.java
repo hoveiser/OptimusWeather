@@ -11,8 +11,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.PostConstruct;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.time.Clock;
+import java.time.ZoneId;
+import java.util.TimeZone;
 
 @SpringBootApplication
 public class OptimusWeatherApplication {
@@ -21,9 +25,19 @@ public class OptimusWeatherApplication {
         SpringApplication.run(OptimusWeatherApplication.class, args);
     }
 
+    @PostConstruct
+    public void init(){
+        // Setting Spring Boot SetTimeZone
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+    }
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         return builder.build();
+    }
+
+    @Bean
+    public Clock clock() {
+        return Clock.system(ZoneId.of("Europe/London"));
     }
 
     @Bean

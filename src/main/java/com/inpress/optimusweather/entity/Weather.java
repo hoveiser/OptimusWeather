@@ -5,9 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.inpress.optimusweather.service.dto.WeatherCode;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Time;
 import java.util.Date;
@@ -19,9 +18,12 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "weather",uniqueConstraints = {
-        @UniqueConstraint(name = "baseUnique",columnNames = {"latitude","time"})
+        @UniqueConstraint(name = "baseUnique",columnNames = {"geoData","time"})
 })
 public class Weather extends BaseEntity implements Serializable,Comparable<Weather> {
+
+    @NotNull
+    private String geoData;
     private Double latitude;
     private Double longitude;
     private String timeZone;
@@ -29,6 +31,8 @@ public class Weather extends BaseEntity implements Serializable,Comparable<Weath
     private Double windSpeed;
     private Integer windDirection;
     private WeatherCode weatherCode;
+
+    @Temporal(TemporalType.DATE)
     private Date time;
 
     @Override
