@@ -12,4 +12,6 @@ public interface WeatherRepository extends JpaRepository<Weather, Long> {
     Weather findByLatitudeAndLongitudeAndTime(Double latitude, Double longitude, Date time);
 
     List<Weather> findByLatitudeAndLongitudeAndTimeBetweenOrderByTimeAsc(Double latitude, Double longitude, Date timeStart, Date timeEnd);
+
+    List<Weather> findByLatitudeAndLongitudeWeathers(Double latitude, Double longitude);
 }
